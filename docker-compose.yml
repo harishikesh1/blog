@@ -1,0 +1,52 @@
+services:
+  api-gateway:
+    build: ./api-gateway
+    ports:
+      - "3000:3000"
+    depends_on:
+      - user-service
+      - post-service
+      - comment-service
+  user-service:
+    build: ./user-service
+    ports:
+      - "3001:3000"
+    depends_on:
+      - userdb
+  post-service:
+    build: ./post-service
+    ports:
+      - "3002:3000"
+    depends_on:
+      - postdb
+  comment-service:
+    build: ./comment-service
+    ports:
+      - "3003:3000"
+    depends_on:
+      - commentdb
+  userdb:
+    image: mongo:7.0
+    ports:
+      - "27017:27017"
+    volumes:
+      - userdbdata:/data/db
+  postdb:
+    image: mongo:7.0
+    ports:
+      - "27018:27017"
+    volumes:
+      - postdbdata:/data/db
+  commentdb:
+    image: mongo:7.0
+    ports:
+      - "27019:27017"
+    volumes:
+      - commentdbdata:/data/db
+
+volumes:
+  userdbdata:
+  postdbdata:
+  commentdbdata:
+
+
